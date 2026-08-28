@@ -506,11 +506,10 @@ const PIN_ACESSO = "lifeup2026";
 // Precisa ser a MESMA chave usada no arquivo lifeup_creators_apps_script.gs.
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwItaSrVlvRKogOdFy8xRkr2s4tGMpjFlCZQyCELuDKPqWT1MzNfJsFglDaToocUq9k/exec";
 
-// O botão "Painel dos Donos" só aparece para quem abrir o link com ?painel=donos no final.
+// Quem abre o link com ?painel=donos vai direto pro painel, sem o switcher de troca de tela.
 // Isso evita que quem clicar no anúncio veja ou clique nesse acesso por engano.
 const params = new URLSearchParams(window.location.search);
 if(params.get('painel') === 'donos'){
-  document.getElementById('topnav-switch').style.display = 'flex';
   trocarView('donos');
 }
 
