@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeUp - Creators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'Mochi Boom';
+    src:url('assets/fonts/MochiBoom.ttf') format('truetype');
+    font-weight:normal;
+    font-style:normal;
+  }
+  :root{
+    --purple:#A16BF5;
+    --lime:#C6FA4D;
+    --cyan:#6FE1F7;
+    --yellow:#F5FA4D;
+    --pink:#F73DBE;
+    --orange:#FFAA4D;
+    --critico:#FF5D6C;
+    --ok:#3DEBB0;
+    --fundo:#120A28;
+    --fundo2:#8C52EC;
+    --card:#A16BF5;
+    --borda:#7C3FDE;
+    --texto:#FFFFFF;
+    --texto-fraco:rgba(255,255,255,0.82);
+    --lilas:#F1EAFE;
+    --azul:#22296B;
+    --azul-fraco:rgba(34,41,107,0.68);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--lilas);
+    color:var(--azul);
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    padding:0 0 60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  h1,h2,h3,.mochi{font-family:'Mochi Boom','Poppins',sans-serif;font-weight:normal;color:var(--texto);}
+
+  /* ---- top nav ---- */
+  .topnav{
+    display:flex;align-items:center;justify-content:center;
+    padding:20px 24px 0;
+    max-width:1080px;margin:0 auto;
+  }
+  .switch{
+    display:flex;gap:8px;background:var(--fundo2);border:1px solid var(--borda);
+    padding:4px;border-radius:12px;
+  }
+  .switch button{
+    border:none;background:transparent;color:var(--texto-fraco);
+    padding:9px 16px;border-radius:9px;font-family:'Poppins',sans-serif;
+    font-weight:600;font-size:12.5px;cursor:pointer;
+  }
+  .switch button.active{background:var(--pink);color:#fff;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---- HERO (public form) ---- */
+  .hero{
+    text-align:center;
+    padding:36px 20px 30px;
+  }
+  .hero-logo{
+    height:170px;
+    width:auto;
+    margin:0 auto 22px;
+    display:block;
+  }
+  .hero h1{
+    font-size:38px;
+    line-height:1.15;
+    margin:0 0 14px;
+    text-transform:uppercase;
+    color:var(--azul);
+  }
+  .hero h1 .destaque{color:var(--pink);}
+  .hero p{
+    max-width:520px;margin:0 auto;
+    color:var(--azul-fraco);
+    font-size:15px;line-height:1.6;
+  }
+
+  .beneficios{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin:30px 0 36px;
+  }
+  @media (max-width:700px){.beneficios{grid-template-columns:1fr;}}
+  .beneficio{
+    background:var(--card);
+    border:1px solid var(--borda);
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+  }
+  .beneficio .ico{font-size:26px;margin-bottom:8px;}
+  .beneficio h3{font-size:14px;margin:0 0 6px;}
+  .beneficio p{font-size:12.5px;color:var(--texto-fraco);margin:0;line-height:1.5;}
+
+  .form-card{
+    background:var(--card);
+    border:1px solid var(--borda);
+    border-radius:20px;
+    padding:32px;
+    max-width:640px;
+    margin:0 auto;
+  }
+  .form-card h2{font-size:19px;margin:0 0 4px;text-align:center;}
+  .form-card .sub{text-align:center;color:var(--texto-fraco);font-size:13px;margin-bottom:24px;}
+
+  .campo{margin-bottom:16px;}
+  .campo label{
+    display:block;font-size:12px;color:var(--texto-fraco);
+    text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;
+  }
+  .linha-dupla{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:560px){.linha-dupla{grid-template-columns:1fr;}}
+
+  input, select, textarea{
+    width:100%;
+    background:var(--fundo2);
+    border:1px solid var(--borda);
+    color:var(--texto);
+    border-radius:10px;
+    padding:11px 13px;
+    font-family:'Poppins',sans-serif;
+    font-size:14px;
+  }
+  textarea{resize:vertical;min-height:80px;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--pink);}
+  input::placeholder, textarea::placeholder{color:rgba(255,255,255,0.35);}
+
+  .radio-row{display:flex;gap:10px;}
+  .radio-opt{
+    flex:1;text-align:center;padding:10px;border-radius:10px;
+    border:1px solid var(--borda);background:var(--fundo2);
+    cursor:pointer;font-size:13px;color:var(--texto-fraco);
+  }
+  .radio-opt.selecionado{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600;}
+
+  button.enviar{
+    margin-top:8px;width:100%;
+    background:var(--lime);
+    color:var(--azul);
+    border:none;border-radius:12px;padding:15px;
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
+    text-transform:uppercase;letter-spacing:0.03em;cursor:pointer;
+  }
+  button.enviar:hover{box-shadow:0 8px 26px rgba(198,250,77,0.5);}
+  button.enviar:disabled{opacity:0.5;cursor:not-allowed;}
+
+  .sucesso{
+    text-align:center;padding:40px 20px;
+  }
+  .sucesso .selo{
+    width:74px;height:74px;border-radius:50%;
+    border:3px solid var(--ok);color:var(--ok);
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;margin:0 auto 18px;
+  }
+  .sucesso h2{font-size:20px;margin-bottom:8px;}
+  .sucesso p{color:var(--texto-fraco);font-size:14px;max-width:400px;margin:0 auto;}
+
+  /* ---- PAINEL DONOS ---- */
+  .gate{
+    max-width:340px;margin:60px auto;text-align:center;
+    background:var(--card);border:1px solid var(--borda);border-radius:18px;padding:30px;
+  }
+  .gate p{color:var(--texto-fraco);font-size:13px;margin-bottom:16px;}
+  .gate input{margin-bottom:12px;}
+
+  .painel-donos{padding-top:10px;}
+  .resumo-donos{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px;
+  }
+  @media (max-width:800px){.resumo-donos{grid-template-columns:repeat(2,1fr);}}
+  .resumo-donos .card-stat{
+    background:var(--card);border:1px solid var(--borda);border-radius:14px;padding:14px;text-align:center;
+  }
+  .resumo-donos .card-stat .n{font-family:'Mochi Boom','Poppins',sans-serif;font-size:24px;}
+  .resumo-donos .card-stat .l{font-size:10.5px;color:var(--texto-fraco);text-transform:uppercase;letter-spacing:0.03em;margin-top:2px;}
+
+  .filtros{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .filtros select, .filtros input{width:auto;flex:1;min-width:140px;}
+
+  .lista-vazia{
+    text-align:center;color:var(--texto-fraco);padding:50px 20px;
+    background:var(--card);border:1px solid var(--borda);border-radius:16px;
+  }
+
+  .candidato{
+    background:var(--card);border:1px solid var(--borda);border-radius:16px;
+    padding:18px 20px;margin-bottom:12px;
+  }
+  .candidato-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;cursor:pointer;flex-wrap:wrap;}
+  .candidato-info h3{font-size:16px;margin:0 0 4px;font-weight:600;font-family:'Poppins',sans-serif;}
+  .candidato-info .meta{font-size:12.5px;color:var(--texto-fraco);}
+  .candidato-info .meta span{margin-right:12px;}
+
+  .status-badge{
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+    padding:4px 11px;border-radius:999px;white-space:nowrap;height:fit-content;
+  }
+  .status-novo{background:rgba(111,225,247,0.18);color:var(--cyan);}
+  .status-analise{background:rgba(255,170,77,0.2);color:var(--orange);}
+  .status-aprovado{background:rgba(61,235,176,0.2);color:var(--ok);}
+  .status-contrato{background:rgba(161,107,245,0.22);color:var(--purple);}
+  .status-ativo{background:rgba(247,61,190,0.2);color:var(--pink);}
+  .status-recusado{background:rgba(255,93,108,0.2);color:var(--critico);}
+
+  .candidato-detalhe{
+    display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--borda);
+  }
+  .candidato-detalhe.aberto{display:block;}
+  .detalhe-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;font-size:13px;}
+  @media (max-width:560px){.detalhe-grid{grid-template-columns:1fr;}}
+  .detalhe-grid div strong{display:block;color:var(--texto-fraco);font-size:11px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:2px;}
+  .detalhe-full{margin-bottom:14px;font-size:13px;}
+  .detalhe-full strong{display:block;color:var(--texto-fraco);font-size:11px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:4px;}
+
+  .acao-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+  .acao-row .campo-status{flex:1;min-width:160px;}
+  .acao-row select{margin-top:0;}
+  .comentario-box textarea{margin-top:8px;}
+  .btn-salvar{
+    background:var(--purple);color:#fff;border:none;border-radius:10px;
+    padding:10px 16px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12.5px;
+    cursor:pointer;margin-top:8px;
+  }
+  .salvo-msg{font-size:11.5px;color:var(--ok);margin-top:6px;display:none;}
+
+  .aviso-shared{
+    font-size:11.5px;color:var(--azul-fraco);text-align:center;margin-top:20px;
+  }
+
+  footer{text-align:center;color:var(--azul-fraco);font-size:12px;margin-top:30px;}
+
+  .campo-erro{
+    display:none;
+    background:rgba(255,93,108,0.14);
+    border:1px solid rgba(255,93,108,0.4);
+    color:#FF5D6C;
+    font-size:12.5px;
+    border-radius:10px;
+    padding:10px 12px;
+    margin-top:6px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="topnav">
+    <div class="switch" id="topnav-switch" style="display:none;">
+      <button class="active" id="btn-view-form" onclick="trocarView('form')">Quero ser Creator</button>
+      <button id="btn-view-donos" onclick="trocarView('donos')">Painel dos Donos</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ==================== VIEW PÚBLICA ==================== -->
+    <div class="view active" id="view-form">
+
+      <div id="conteudo-form">
+        <div class="hero">
+          <img src="assets/img/lifeup-logo.png" alt="LifeUp" class="hero-logo">
+          <h1>Seleção Oficial de<br><span class="destaque">Creators LifeUp</span></h1>
+          <p>A LifeUp está abrindo uma nova seleção de creators para representar a marca. Se você vive de treino, sono de qualidade e boa forma de verdade, essa é a sua chance de fazer parte oficialmente.</p>
+        </div>
+
+        <div class="beneficios">
+          <div class="beneficio">
+            <div class="ico">💜</div>
+            <h3>Produtos e cachê</h3>
+            <p>Kits de produto e remuneração para os creators aprovados</p>
+          </div>
+          <div class="beneficio">
+            <div class="ico">🎬</div>
+            <h3>Criativos prontos</h3>
+            <p>Roteiros e direção de arte já validados, é só gravar</p>
+          </div>
+          <div class="beneficio">
+            <div class="ico">🚀</div>
+            <h3>Visibilidade</h3>
+            <p>Seu conteúdo rodando como anúncio oficial da marca</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h2>Candidatura</h2>
+          <div class="sub">Leva menos de 2 minutos</div>
+
+          <form id="form-candidatura" onsubmit="return false;">
+            <div class="campo">
+              <label>Nome completo</label>
+              <input type="text" id="c-nome" placeholder="Seu nome" required>
+            </div>
+
+            <div class="linha-dupla">
+              <div class="campo">
+                <label>Idade</label>
+                <input type="number" id="c-idade" placeholder="Sua idade" min="1" max="99" required>
+                <div class="campo-erro" id="erro-idade">É preciso ter 18 anos ou mais para participar do programa.</div>
+              </div>
+              <div class="campo">
+                <label>Cidade / Estado</label>
+                <input type="text" id="c-cidade" placeholder="Ex: Blumenau/SC" required>
+              </div>
+            </div>
+
+            <div class="linha-dupla">
+              <div class="campo">
+                <label>Instagram ou TikTok</label>
+                <input type="text" id="c-instagram" placeholder="@seuusuario" required>
+              </div>
+              <div class="campo">
+                <label>Número de seguidores</label>
+                <input type="number" id="c-seguidores" placeholder="Ex: 45000" min="0" required>
+              </div>
+            </div>
+
+            <div class="linha-dupla">
+              <div class="campo">
+                <label>WhatsApp</label>
+                <input type="text" id="c-whatsapp" placeholder="(00) 00000-0000" required>
+              </div>
+              <div class="campo">
+                <label>Email</label>
+                <input type="email" id="c-email" placeholder="voce@email.com" required>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label>Nicho principal</label>
+              <select id="c-nicho">
+                <option value="Fitness / performance">Fitness / performance</option>
+                <option value="Lifestyle / bem-estar">Lifestyle / bem-estar</option>
+                <option value="Nutrição / saúde">Nutrição / saúde</option>
+                <option value="Esporte / luta">Esporte / luta</option>
+                <option value="Unboxing">Unboxing</option>
+                <option value="Dia a dia / rotina de trabalho">Dia a dia / rotina de trabalho</option>
+                <option value="Maternidade e família">Maternidade e família</option>
+                <option value="Vida corporativa e produtividade">Vida corporativa e produtividade</option>
+                <option value="Humor e entretenimento">Humor e entretenimento</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label>Link de portfólio ou reels (opcional)</label>
+              <input type="text" id="c-portfolio" placeholder="Link do seu melhor conteúdo">
+            </div>
+
+            <div class="campo">
+              <label>Já experimentou algum produto LifeUp?</label>
+              <div class="radio-row" id="grupo-testou">
+                <div class="radio-opt selecionado" data-val="sim">Já experimentei</div>
+                <div class="radio-opt" data-val="nao">Ainda não</div>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label>Por que você quer ser Creator LifeUp?</label>
+              <textarea id="c-motivo" placeholder="Conta um pouco sobre você e por que faz sentido criar com a gente"></textarea>
+            </div>
+
+            <button class="enviar" id="btn-enviar" onclick="enviarCandidatura()">Enviar candidatura</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="sucesso" id="tela-sucesso" style="display:none;">
+        <div class="selo">✓</div>
+        <h2>Candidatura recebida</h2>
+        <p>Obrigado por querer fazer parte da LifeUp. Nosso time vai analisar seu perfil e entra em contato pelo WhatsApp ou email em breve.</p>
+      </div>
+
+    </div>
+
+    <!-- ==================== VIEW DONOS ==================== -->
+    <div class="view" id="view-donos">
+
+      <div class="gate" id="tela-gate">
+        <h2 style="font-size:17px;">Acesso do time LifeUp</h2>
+        <p>Área restrita para avaliação de candidatos. Digite o código de acesso.</p>
+        <input type="password" id="pin-input" placeholder="Código de acesso">
+        <button class="enviar" onclick="validarPin()">Entrar</button>
+      </div>
+
+      <div class="painel-donos" id="painel-donos" style="display:none;">
+        <h2 style="text-align:center;margin-bottom:4px;color:var(--azul);">Candidatos a Creator</h2>
+        <p style="text-align:center;color:var(--azul-fraco);font-size:13px;margin-bottom:24px;">Clique em um candidato para ver detalhes, mudar status e comentar</p>
+
+        <div class="resumo-donos" id="resumo-donos"></div>
+
+        <div class="filtros">
+          <input type="text" id="filtro-busca" placeholder="Buscar por nome ou @" oninput="renderizarLista()">
+          <select id="filtro-status" onchange="renderizarLista()">
+            <option value="">Todos os status</option>
+            <option value="novo">Novo</option>
+            <option value="analise">Em análise</option>
+            <option value="aprovado">Aprovado</option>
+            <option value="contrato">Contrato enviado</option>
+            <option value="ativo">Ativo</option>
+            <option value="recusado">Recusado</option>
+          </select>
+          <select id="filtro-nicho" onchange="renderizarLista()">
+            <option value="">Todos os nichos</option>
+            <option value="Fitness / performance">Fitness / performance</option>
+            <option value="Lifestyle / bem-estar">Lifestyle / bem-estar</option>
+            <option value="Nutrição / saúde">Nutrição / saúde</option>
+            <option value="Esporte / luta">Esporte / luta</option>
+            <option value="Unboxing">Unboxing</option>
+            <option value="Dia a dia / rotina de trabalho">Dia a dia / rotina de trabalho</option>
+            <option value="Maternidade e família">Maternidade e família</option>
+            <option value="Vida corporativa e produtividade">Vida corporativa e produtividade</option>
+            <option value="Humor e entretenimento">Humor e entretenimento</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
+        <div id="lista-candidatos"></div>
+
+        <div class="aviso-shared">Dados armazenados de forma compartilhada nesta ferramenta. Trate como uma área interna, não compartilhe o link publicamente com o código de acesso.</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>LifeUp · Mais vida em forma de goma 💜</footer>
+
+<script>
+const PIN_ACESSO = "lifeup2026";
+
+// Cole aqui a URL do seu Apps Script depois de implantar (termina com /exec).
+// Precisa ser a MESMA chave usada no arquivo lifeup_creators_apps_script.gs.
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwItaSrVlvRKogOdFy8xRkr2s4tGMpjFlCZQyCELuDKPqWT1MzNfJsFglDaToocUq9k/exec";
+
+// O botão "Painel dos Donos" só aparece para quem abrir o link com ?painel=donos no final.
+// Isso evita que quem clicar no anúncio veja ou clique nesse acesso por engano.
+const params = new URLSearchParams(window.location.search);
+if(params.get('painel') === 'donos'){
+  document.getElementById('topnav-switch').style.display = 'flex';
+  trocarView('donos');
+}
+
+function trocarView(view){
+  document.getElementById('btn-view-form').classList.toggle('active', view==='form');
+  document.getElementById('btn-view-donos').classList.toggle('active', view==='donos');
+  document.getElementById('view-form').classList.toggle('active', view==='form');
+  document.getElementById('view-donos').classList.toggle('active', view==='donos');
+  if(view === 'donos' && document.getElementById('painel-donos').style.display === 'block'){
+    renderizarLista();
+  }
+}
+
+function validarPin(){
+  const val = document.getElementById('pin-input').value.trim();
+  if(val === PIN_ACESSO){
+    document.getElementById('tela-gate').style.display = 'none';
+    document.getElementById('painel-donos').style.display = 'block';
+    renderizarLista();
+  } else {
+    alert('Código incorreto.');
+  }
+}
+
+document.querySelectorAll('#grupo-testou .radio-opt').forEach(opt=>{
+  opt.addEventListener('click', ()=>{
+    document.querySelectorAll('#grupo-testou .radio-opt').forEach(o=>o.classList.remove('selecionado'));
+    opt.classList.add('selecionado');
+  });
+});
+
+async function carregarCandidatos(){
+  try{
+    const res = await fetch(`${APPS_SCRIPT_URL}?chave=${encodeURIComponent(PIN_ACESSO)}`);
+    const data = await res.json();
+    if(!data.ok) return [];
+    return data.candidatos || [];
+  } catch(e){
+    console.error('Erro ao carregar candidatos', e);
+    return [];
+  }
+}
+
+async function enviarNovoCandidato(candidato){
+  try{
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ acao: 'novo', candidato })
+    });
+    const data = await res.json();
+    return !!data.ok;
+  } catch(e){
+    console.error('Erro ao enviar candidato', e);
+    return false;
+  }
+}
+
+async function enviarCandidatura(){
+  const nome = document.getElementById('c-nome').value.trim();
+  const idade = document.getElementById('c-idade').value.trim();
+  const cidade = document.getElementById('c-cidade').value.trim();
+  const instagram = document.getElementById('c-instagram').value.trim();
+  const seguidores = document.getElementById('c-seguidores').value.trim();
+  const whatsapp = document.getElementById('c-whatsapp').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+
+  document.getElementById('erro-idade').style.display = 'none';
+
+  if(!nome || !idade || !cidade || !instagram || !seguidores || !whatsapp || !email){
+    alert('Preencha os campos obrigatórios antes de enviar.');
+    return;
+  }
+
+  if(parseInt(idade, 10) < 18){
+    document.getElementById('erro-idade').style.display = 'block';
+    document.getElementById('c-idade').focus();
+    return;
+  }
+
+  const testou = document.querySelector('#grupo-testou .selecionado').dataset.val;
+
+  const novoCandidato = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+    nome,
+    idade,
+    cidade,
+    instagram,
+    seguidores: document.getElementById('c-seguidores').value,
+    whatsapp,
+    email,
+    nicho: document.getElementById('c-nicho').value,
+    portfolio: document.getElementById('c-portfolio').value.trim(),
+    testouProduto: testou,
+    motivo: document.getElementById('c-motivo').value.trim(),
+    status: 'novo',
+    comentario: '',
+    data: new Date().toISOString()
+  };
+
+  const btn = document.getElementById('btn-enviar');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const ok = await enviarNovoCandidato(novoCandidato);
+
+  btn.disabled = false;
+  btn.textContent = 'Enviar candidatura';
+
+  if(ok){
+    document.getElementById('conteudo-form').style.display = 'none';
+    document.getElementById('tela-sucesso').style.display = 'block';
+  } else {
+    alert('Não foi possível enviar agora. Tente novamente em instantes.');
+  }
+}
+
+function labelStatus(s){
+  return {
+    novo:'Novo', analise:'Em análise', aprovado:'Aprovado',
+    contrato:'Contrato enviado', ativo:'Ativo', recusado:'Recusado'
+  }[s] || s;
+}
+
+function formatarData(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR');
+}
+
+async function renderizarLista(){
+  const todos = await carregarCandidatos();
+  const busca = document.getElementById('filtro-busca').value.toLowerCase();
+  const fStatus = document.getElementById('filtro-status').value;
+  const fNicho = document.getElementById('filtro-nicho').value;
+
+  const filtrados = todos.filter(c=>{
+    const bateBusca = !busca || c.nome.toLowerCase().includes(busca) || c.instagram.toLowerCase().includes(busca);
+    const bateStatus = !fStatus || c.status === fStatus;
+    const bateNicho = !fNicho || c.nicho === fNicho;
+    return bateBusca && bateStatus && bateNicho;
+  }).sort((a,b)=> new Date(b.data) - new Date(a.data));
+
+  // resumo
+  const resumo = document.getElementById('resumo-donos');
+  const contagem = {
+    total: todos.length,
+    novo: todos.filter(c=>c.status==='novo').length,
+    analise: todos.filter(c=>c.status==='analise').length,
+    aprovado: todos.filter(c=>c.status==='aprovado').length,
+    ativo: todos.filter(c=>c.status==='ativo').length
+  };
+  resumo.innerHTML = `
+    <div class="card-stat"><div class="n">${contagem.total}</div><div class="l">Total</div></div>
+    <div class="card-stat"><div class="n">${contagem.novo}</div><div class="l">Novos</div></div>
+    <div class="card-stat"><div class="n">${contagem.analise}</div><div class="l">Em análise</div></div>
+    <div class="card-stat"><div class="n">${contagem.aprovado}</div><div class="l">Aprovados</div></div>
+    <div class="card-stat"><div class="n">${contagem.ativo}</div><div class="l">Ativos</div></div>
+  `;
+
+  const container = document.getElementById('lista-candidatos');
+  if(filtrados.length === 0){
+    container.innerHTML = `<div class="lista-vazia">Nenhum candidato encontrado com esse filtro.</div>`;
+    return;
+  }
+
+  container.innerHTML = filtrados.map(c => `
+    <div class="candidato" id="cand-${c.id}">
+      <div class="candidato-top" onclick="alternarDetalhe('${c.id}')">
+        <div class="candidato-info">
+          <h3>${c.nome} <span style="color:var(--texto-fraco);font-weight:400;">${c.instagram}</span></h3>
+          <div class="meta">
+            <span>${Number(c.seguidores).toLocaleString('pt-BR')} seguidores</span>
+            <span>${c.nicho}</span>
+            <span>${c.cidade}</span>
+            <span>${formatarData(c.data)}</span>
+          </div>
+        </div>
+        <span class="status-badge status-${c.status}">${labelStatus(c.status)}</span>
+      </div>
+
+      <div class="candidato-detalhe" id="detalhe-${c.id}">
+        <div class="detalhe-grid">
+          <div><strong>Idade</strong>${c.idade} anos</div>
+          <div><strong>WhatsApp</strong>${c.whatsapp}</div>
+          <div><strong>Email</strong>${c.email}</div>
+          <div><strong>Já testou produto</strong>${c.testouProduto === 'sim' ? 'Sim' : 'Não'}</div>
+          <div><strong>Portfólio</strong>${c.portfolio ? c.portfolio : 'Não informado'}</div>
+        </div>
+        <div class="detalhe-full">
+          <strong>Motivo</strong>
+          ${c.motivo ? c.motivo : 'Não preenchido.'}
+        </div>
+
+        <div class="acao-row">
+          <div class="campo-status">
+            <label style="display:block;font-size:11px;color:var(--texto-fraco);text-transform:uppercase;margin-bottom:6px;">Status</label>
+            <select id="status-${c.id}">
+              <option value="novo" ${c.status==='novo'?'selected':''}>Novo</option>
+              <option value="analise" ${c.status==='analise'?'selected':''}>Em análise</option>
+              <option value="aprovado" ${c.status==='aprovado'?'selected':''}>Aprovado</option>
+              <option value="contrato" ${c.status==='contrato'?'selected':''}>Contrato enviado</option>
+              <option value="ativo" ${c.status==='ativo'?'selected':''}>Ativo</option>
+              <option value="recusado" ${c.status==='recusado'?'selected':''}>Recusado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="comentario-box">
+          <label style="display:block;font-size:11px;color:var(--texto-fraco);text-transform:uppercase;margin-bottom:6px;">Comentário interno</label>
+          <textarea id="comentario-${c.id}" placeholder="Ex: perfil combina com a linha de creatina, chamar pra call">${c.comentario || ''}</textarea>
+        </div>
+
+        <button class="btn-salvar" onclick="salvarAlteracoes('${c.id}')">Salvar alterações</button>
+        <div class="salvo-msg" id="salvo-${c.id}">Alterações salvas.</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function alternarDetalhe(id){
+  const el = document.getElementById('detalhe-'+id);
+  el.classList.toggle('aberto');
+}
+
+async function salvarAlteracoes(id){
+  const status = document.getElementById('status-'+id).value;
+  const comentario = document.getElementById('comentario-'+id).value;
+
+  const btn = document.querySelector(`#detalhe-${id} .btn-salvar`);
+  if(btn){ btn.disabled = true; btn.textContent = 'Salvando...'; }
+
+  let ok = false;
+  try{
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ acao: 'atualizar', id, status, comentario, chave: PIN_ACESSO })
+    });
+    const data = await res.json();
+    ok = !!data.ok;
+    if(!ok && data.erro){ alert(data.erro); }
+  } catch(e){
+    console.error('Erro ao salvar alterações', e);
+  }
+
+  if(btn){ btn.disabled = false; btn.textContent = 'Salvar alterações'; }
+
+  const badge = document.querySelector(`#cand-${id} .status-badge`);
+  if(ok && badge){
+    badge.className = 'status-badge status-' + status;
+    badge.textContent = labelStatus(status);
+  }
+  const msg = document.getElementById('salvo-'+id);
+  if(ok && msg){
+    msg.style.display = 'block';
+    setTimeout(()=>{ msg.style.display = 'none'; }, 2200);
+  }
+}
+</script>
+</body>
+</html>
