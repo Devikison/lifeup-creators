@@ -145,8 +145,13 @@
     flex:1;text-align:center;padding:10px;border-radius:10px;
     border:1px solid var(--borda);background:var(--fundo2);
     cursor:pointer;font-size:13px;color:var(--texto-fraco);
+    white-space:nowrap;
   }
   .radio-opt.selecionado{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600;}
+  @media (max-width:420px){
+    .radio-row{flex-direction:column;}
+    .radio-opt{white-space:normal;}
+  }
 
   button.enviar{
     margin-top:8px;width:100%;
