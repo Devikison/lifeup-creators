@@ -301,9 +301,15 @@
           <div class="sub">Leva menos de 2 minutos</div>
 
           <form id="form-candidatura" onsubmit="return false;">
-            <div class="campo">
-              <label>Nome completo</label>
-              <input type="text" id="c-nome" placeholder="Seu nome" required>
+            <div class="linha-dupla">
+              <div class="campo">
+                <label>Nome</label>
+                <input type="text" id="c-nome" placeholder="Seu nome" required>
+              </div>
+              <div class="campo">
+                <label>Sobrenome</label>
+                <input type="text" id="c-sobrenome" placeholder="Seu sobrenome" required>
+              </div>
             </div>
 
             <div class="linha-dupla">
@@ -320,13 +326,18 @@
 
             <div class="linha-dupla">
               <div class="campo">
-                <label>Instagram ou TikTok</label>
+                <label>Instagram</label>
                 <input type="text" id="c-instagram" placeholder="@seuusuario" required>
               </div>
               <div class="campo">
-                <label>Número de seguidores</label>
-                <input type="number" id="c-seguidores" placeholder="Ex: 45000" min="0" required>
+                <label>TikTok (opcional)</label>
+                <input type="text" id="c-tiktok" placeholder="@seuusuario">
               </div>
+            </div>
+
+            <div class="campo">
+              <label>Número de seguidores</label>
+              <input type="number" id="c-seguidores" placeholder="Ex: 45000" min="0" required>
             </div>
 
             <div class="linha-dupla">
@@ -337,6 +348,23 @@
               <div class="campo">
                 <label>Email</label>
                 <input type="email" id="c-email" placeholder="voce@email.com" required>
+              </div>
+            </div>
+
+            <div class="linha-dupla">
+              <div class="campo">
+                <label>Tipo de chave PIX (opcional)</label>
+                <select id="c-tipo-pix">
+                  <option value="">Selecione</option>
+                  <option value="CPF/CNPJ">CPF/CNPJ</option>
+                  <option value="Email">Email</option>
+                  <option value="Telefone">Telefone</option>
+                  <option value="Aleatória">Chave aleatória</option>
+                </select>
+              </div>
+              <div class="campo">
+                <label>Chave PIX (opcional)</label>
+                <input type="text" id="c-chave-pix" placeholder="Insira sua chave PIX">
               </div>
             </div>
 
@@ -512,16 +540,20 @@ async function enviarNovoCandidato(candidato){
 
 async function enviarCandidatura(){
   const nome = document.getElementById('c-nome').value.trim();
+  const sobrenome = document.getElementById('c-sobrenome').value.trim();
   const idade = document.getElementById('c-idade').value.trim();
   const cidade = document.getElementById('c-cidade').value.trim();
   const instagram = document.getElementById('c-instagram').value.trim();
+  const tiktok = document.getElementById('c-tiktok').value.trim();
   const seguidores = document.getElementById('c-seguidores').value.trim();
   const whatsapp = document.getElementById('c-whatsapp').value.trim();
   const email = document.getElementById('c-email').value.trim();
+  const tipoPix = document.getElementById('c-tipo-pix').value;
+  const chavePix = document.getElementById('c-chave-pix').value.trim();
 
   document.getElementById('erro-idade').style.display = 'none';
 
-  if(!nome || !idade || !cidade || !instagram || !seguidores || !whatsapp || !email){
+  if(!nome || !sobrenome || !idade || !cidade || !instagram || !seguidores || !whatsapp || !email){
     alert('Preencha os campos obrigatórios antes de enviar.');
     return;
   }
@@ -537,12 +569,16 @@ async function enviarCandidatura(){
   const novoCandidato = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
     nome,
+    sobrenome,
     idade,
     cidade,
     instagram,
+    tiktok,
     seguidores: document.getElementById('c-seguidores').value,
     whatsapp,
     email,
+    tipoPix,
+    chavePix,
     nicho: document.getElementById('c-nicho').value,
     portfolio: document.getElementById('c-portfolio').value.trim(),
     testouProduto: testou,
@@ -621,7 +657,7 @@ async function renderizarLista(){
     <div class="candidato" id="cand-${c.id}">
       <div class="candidato-top" onclick="alternarDetalhe('${c.id}')">
         <div class="candidato-info">
-          <h3>${c.nome} <span style="color:var(--texto-fraco);font-weight:400;">${c.instagram}</span></h3>
+          <h3>${c.nome} ${c.sobrenome || ''} <span style="color:var(--texto-fraco);font-weight:400;">${c.instagram}</span></h3>
           <div class="meta">
             <span>${Number(c.seguidores).toLocaleString('pt-BR')} seguidores</span>
             <span>${c.nicho}</span>
@@ -639,6 +675,8 @@ async function renderizarLista(){
           <div><strong>Email</strong>${c.email}</div>
           <div><strong>Já testou produto</strong>${c.testouProduto === 'sim' ? 'Sim' : 'Não'}</div>
           <div><strong>Portfólio</strong>${c.portfolio ? c.portfolio : 'Não informado'}</div>
+          <div><strong>TikTok</strong>${c.tiktok ? c.tiktok : 'Não informado'}</div>
+          <div><strong>Chave PIX</strong>${c.chavePix ? (c.chavePix + (c.tipoPix ? ' (' + c.tipoPix + ')' : '')) : 'Não informado'}</div>
         </div>
         <div class="detalhe-full">
           <strong>Motivo</strong>
