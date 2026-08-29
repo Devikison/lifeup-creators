@@ -506,7 +506,9 @@
   <footer>LifeUp · Mais vida em forma de goma 💜</footer>
 
 <script>
-const PIN_ACESSO = "lifeup2026";
+// O PIN não fica mais salvo aqui no HTML (isso vazava pra quem visse o código-fonte da página).
+// Agora ele é validado direto pelo Apps Script, que é o único lugar que sabe o valor correto.
+let chaveAcesso = null;
 
 // Cole aqui a URL do seu Apps Script depois de implantar (termina com /exec).
 // Precisa ser a MESMA chave usada no arquivo lifeup_creators_apps_script.gs.
@@ -529,15 +531,29 @@ function trocarView(view){
   }
 }
 
-function validarPin(){
+async function validarPin(){
   const val = document.getElementById('pin-input').value.trim();
-  if(val === PIN_ACESSO){
-    document.getElementById('tela-gate').style.display = 'none';
-    document.getElementById('painel-donos').style.display = 'block';
-    renderizarLista();
-  } else {
-    alert('Código incorreto.');
+  const btn = document.querySelector('#tela-gate .enviar');
+  btn.disabled = true;
+  btn.textContent = 'Verificando...';
+
+  try{
+    const res = await fetch(`${APPS_SCRIPT_URL}?chave=${encodeURIComponent(val)}`);
+    const data = await res.json();
+    if(data.ok){
+      chaveAcesso = val;
+      document.getElementById('tela-gate').style.display = 'none';
+      document.getElementById('painel-donos').style.display = 'block';
+      renderizarLista();
+    } else {
+      alert('Código incorreto.');
+    }
+  } catch(e){
+    alert('Não foi possível verificar agora. Tente novamente.');
   }
+
+  btn.disabled = false;
+  btn.textContent = 'Entrar';
 }
 
 document.querySelectorAll('#grupo-testou .radio-opt').forEach(opt=>{
@@ -549,7 +565,7 @@ document.querySelectorAll('#grupo-testou .radio-opt').forEach(opt=>{
 
 async function carregarCandidatos(){
   try{
-    const res = await fetch(`${APPS_SCRIPT_URL}?chave=${encodeURIComponent(PIN_ACESSO)}`);
+    const res = await fetch(`${APPS_SCRIPT_URL}?chave=${encodeURIComponent(chaveAcesso)}`);
     const data = await res.json();
     if(!data.ok) return [];
     return data.candidatos || [];
@@ -762,7 +778,7 @@ async function salvarAlteracoes(id){
     const res = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ acao: 'atualizar', id, status, comentario, chave: PIN_ACESSO })
+      body: JSON.stringify({ acao: 'atualizar', id, status, comentario, chave: chaveAcesso })
     });
     const data = await res.json();
     ok = !!data.ok;
