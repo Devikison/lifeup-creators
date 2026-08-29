@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LifeUp - Creators</title>
+<title>Life Up - Creators</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -291,9 +291,9 @@
 
       <div id="conteudo-form">
         <div class="hero">
-          <img src="assets/img/lifeup-logo.png" alt="LifeUp" class="hero-logo">
-          <h1>Seleção Oficial de<br><span class="destaque">Creators LifeUp</span></h1>
-          <p>A LifeUp está abrindo uma nova seleção de creators para representar a marca. Se você vive de treino, sono de qualidade e boa forma de verdade, essa é a sua chance de fazer parte oficialmente.</p>
+          <img src="assets/img/lifeup-logo.png" alt="Life Up" class="hero-logo">
+          <h1>Seleção Oficial de<br><span class="destaque">Creators Life Up</span></h1>
+          <p>A Life Up está abrindo uma nova seleção de creators para representar a marca. Se você vive de treino, sono de qualidade e boa forma de verdade, essa é a sua chance de fazer parte oficialmente.</p>
         </div>
 
         <div class="beneficios">
@@ -332,8 +332,8 @@
 
             <div class="linha-dupla">
               <div class="campo">
-                <label>Idade</label>
-                <input type="number" id="c-idade" placeholder="Sua idade" min="1" max="99" required>
+                <label>Data de nascimento</label>
+                <input type="date" id="c-nascimento" required>
                 <div class="campo-erro" id="erro-idade">É preciso ter 18 anos ou mais para participar do programa.</div>
               </div>
               <div class="campo">
@@ -408,7 +408,7 @@
             </div>
 
             <div class="campo">
-              <label>Já experimentou algum produto LifeUp?</label>
+              <label>Já experimentou algum produto Life Up?</label>
               <div class="radio-row" id="grupo-testou">
                 <div class="radio-opt selecionado" data-val="sim">Já experimentei</div>
                 <div class="radio-opt" data-val="nao">Ainda não</div>
@@ -416,7 +416,7 @@
             </div>
 
             <div class="campo">
-              <label>Por que você quer ser Creator LifeUp?</label>
+              <label>Por que você quer ser Creator Life Up?</label>
               <textarea id="c-motivo" placeholder="Conta um pouco sobre você e por que faz sentido criar com a gente"></textarea>
             </div>
 
@@ -428,7 +428,7 @@
       <div class="sucesso" id="tela-sucesso" style="display:none;">
         <div class="selo">✓</div>
         <h2>Candidatura recebida</h2>
-        <p>Obrigado por querer fazer parte da LifeUp. Nosso time vai analisar seu perfil e entra em contato pelo WhatsApp ou email em breve.</p>
+        <p>Obrigado por querer fazer parte da Life Up. Nosso time vai analisar seu perfil e entra em contato pelo WhatsApp ou email em breve.</p>
         <div class="links-sucesso">
           <a class="link-insta" href="https://www.instagram.com/minhalifeup/" target="_blank" rel="noopener">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -436,7 +436,7 @@
               <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
               <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
             </svg>
-            Voltar pro Instagram da LifeUp
+            Voltar pro Instagram da Life Up
           </a>
           <a class="link-insta" href="https://lifeupsuplementos.com.br/" target="_blank" rel="noopener">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -444,10 +444,10 @@
               <ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" stroke-width="2"/>
               <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
             </svg>
-            Visitar o site da LifeUp
+            Visitar o site da Life Up
           </a>
         </div>
-        <img class="sucesso-logo" src="assets/img/lifeup-logo.png" alt="LifeUp">
+        <img class="sucesso-logo" src="assets/img/lifeup-logo.png" alt="Life Up">
       </div>
 
     </div>
@@ -456,7 +456,7 @@
     <div class="view" id="view-donos">
 
       <div class="gate" id="tela-gate">
-        <h2 style="font-size:17px;">Acesso do time LifeUp</h2>
+        <h2 style="font-size:17px;">Acesso do time Life Up</h2>
         <p>Área restrita para avaliação de candidatos. Digite o código de acesso.</p>
         <input type="password" id="pin-input" placeholder="Código de acesso">
         <button class="enviar" onclick="validarPin()">Entrar</button>
@@ -503,7 +503,7 @@
 
   </div>
 
-  <footer>LifeUp · Mais vida em forma de goma 💜</footer>
+  <footer>Life Up · Mais vida em forma de goma 💜</footer>
 
 <script>
 // O PIN não fica mais salvo aqui no HTML (isso vazava pra quem visse o código-fonte da página).
@@ -575,6 +575,16 @@ async function carregarCandidatos(){
   }
 }
 
+function calcularIdade(dataNascimento){
+  const nasc = new Date(dataNascimento + 'T00:00:00');
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - nasc.getFullYear();
+  const aindaNaoFezAniversario = (hoje.getMonth() < nasc.getMonth()) ||
+    (hoje.getMonth() === nasc.getMonth() && hoje.getDate() < nasc.getDate());
+  if(aindaNaoFezAniversario) idade--;
+  return idade;
+}
+
 async function enviarNovoCandidato(candidato){
   try{
     const res = await fetch(APPS_SCRIPT_URL, {
@@ -593,7 +603,7 @@ async function enviarNovoCandidato(candidato){
 async function enviarCandidatura(){
   const nome = document.getElementById('c-nome').value.trim();
   const sobrenome = document.getElementById('c-sobrenome').value.trim();
-  const idade = document.getElementById('c-idade').value.trim();
+  const nascimento = document.getElementById('c-nascimento').value;
   const cidade = document.getElementById('c-cidade').value.trim();
   const instagram = document.getElementById('c-instagram').value.trim();
   const tiktok = document.getElementById('c-tiktok').value.trim();
@@ -605,14 +615,16 @@ async function enviarCandidatura(){
 
   document.getElementById('erro-idade').style.display = 'none';
 
-  if(!nome || !sobrenome || !idade || !cidade || !instagram || !seguidores || !whatsapp || !email){
+  if(!nome || !sobrenome || !nascimento || !cidade || !instagram || !seguidores || !whatsapp || !email){
     alert('Preencha os campos obrigatórios antes de enviar.');
     return;
   }
 
-  if(parseInt(idade, 10) < 18){
+  const idade = calcularIdade(nascimento);
+
+  if(idade < 18){
     document.getElementById('erro-idade').style.display = 'block';
-    document.getElementById('c-idade').focus();
+    document.getElementById('c-nascimento').focus();
     return;
   }
 
