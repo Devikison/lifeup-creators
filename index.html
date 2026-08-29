@@ -83,7 +83,10 @@
     text-transform:uppercase;
     color:var(--azul);
   }
-  .hero h1 .destaque{color:var(--pink);}
+  .hero h1 .destaque{color:var(--pink);white-space:nowrap;}
+  @media (max-width:420px){
+    .hero h1{font-size:28px;}
+  }
   .hero p{
     max-width:520px;margin:0 auto;
     color:var(--azul-fraco);
@@ -118,7 +121,7 @@
   .form-card h2{font-size:19px;margin:0 0 4px;text-align:center;}
   .form-card .sub{text-align:center;color:var(--texto-fraco);font-size:13px;margin-bottom:24px;}
 
-  .campo{margin-bottom:16px;}
+  .campo{margin-bottom:16px;min-width:0;}
   .campo label{
     display:block;font-size:12px;color:var(--texto-fraco);
     text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;
@@ -128,6 +131,9 @@
 
   input, select, textarea{
     width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
     background:var(--fundo2);
     border:1px solid var(--borda);
     color:var(--texto);
