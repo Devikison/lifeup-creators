@@ -149,6 +149,10 @@
   textarea{resize:vertical;min-height:80px;}
   input:focus, select:focus, textarea:focus{outline:none;border-color:var(--pink);}
   input::placeholder, textarea::placeholder{color:rgba(255,255,255,0.35);}
+  input[type="date"]{
+    -webkit-appearance:none;appearance:none;
+    display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;
+  }
 
   .radio-row{display:flex;gap:10px;}
   .radio-opt{
